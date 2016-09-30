@@ -40,12 +40,17 @@ public class ControllerServlet extends HttpServlet {
 
 		// Complete. If no instance is retrived redirects to error
 		// response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		if (rh == null) 
+		if (rh == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 
-
+		}
 		// Complete. Call the method handleRequsest of the instance in order to
 		// obtain the url
+		
+		else {
+			String viewURL = rh.handleRequest(request, response);
+		}
+		
 
 		// Complete. Dispatch the request to the url obtained
 
