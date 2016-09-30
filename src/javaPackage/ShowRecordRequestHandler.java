@@ -29,6 +29,7 @@ public class ShowRecordRequestHandler implements RequestHandler {
 	private static final String PARAMETER_NAME = "name";
 	private static final String SORRY_NOT_FOUND_JSP = "sorryNotFound.jsp";
 	private static final String ENTER_NAME_JSP = "enterName.jsp";
+	
 	private DataStore dataStore;
 
 	public ShowRecordRequestHandler() {

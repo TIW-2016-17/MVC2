@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// Hash table of RequestHandler instances, keyed by request URL
-	private Map handlerHash = new HashMap();
+	private Map<String, ShowRecordRequestHandler> handlerHash = new HashMap<String, ShowRecordRequestHandler>();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -26,6 +26,15 @@ public class ControllerServlet extends HttpServlet {
 		super();
 	}
 
+	 // Initialize mappings: not implemented here
+	  public void init() throws ServletException {
+
+	    // This will read mapping definitions and populate handlerHash
+	    handlerHash.put("/login.html", new javaPackage.ShowRecordRequestHandler());
+	    handlerHash.put("/showInfo.html", new javaPackage.ShowRecordRequestHandler());
+	  }
+
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -33,8 +42,7 @@ public class ControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		// Complete. Retrieve from the HashMap the instance of the class which
+		String viewURL = null;		// Complete. Retrieve from the HashMap the instance of the class which
 		// implements the logic of the requested url
 		RequestHandler rh = (RequestHandler) handlerHash.get(request.getServletPath());
 
@@ -48,12 +56,16 @@ public class ControllerServlet extends HttpServlet {
 		// obtain the url
 		
 		else {
-			String viewURL = rh.handleRequest(request, response);
+			 viewURL = rh.handleRequest(request, response);
 		}
 		
 
 		// Complete. Dispatch the request to the url obtained
-
+		if (viewURL == null) {
+			// nothing
+		} else {
+			request.getRequestDispatcher(viewURL).forward(request, response);
+		}
 	}
 
 }
