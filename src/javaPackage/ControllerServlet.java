@@ -1,6 +1,9 @@
 package javaPackage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("*.html")
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	// Hash table of RequestHandler instances, keyed by request URL
+	private Map handlerHash = new HashMap();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -31,6 +36,7 @@ public class ControllerServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		// Complete. Retrieve from the HashMap the instance of the class which
 		// implements the logic of the requested url
+		RequestHandler rh = (RequestHandler) handlerHash.get(request.getServletPath());
 
 		// Complete. If no instance is retrived redirects to error
 		// response.sendError(HttpServletResponse.SC_NOT_FOUND);
